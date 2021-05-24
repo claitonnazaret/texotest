@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet id="1" author="claiton.nazaret">
+        <preConditions onFail="MARK_RAN" onFailMessage="Tabela producer já existe">
+            <not>
+                <tableExists tableName="producer"/>
+            </not>
+        </preConditions>
+        <comment>Criando a tabela producer</comment>
+        <createTable tableName="producer">
+            <column name="id" autoIncrement="true" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_producer"/>
+            </column>
+            <column name="name" type="varchar(255)" />
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="claiton.nazaret">
+        <preConditions onFail="MARK_RAN" onFailMessage="Tabela studio já existe">
+            <not>
+                <tableExists tableName="studio"/>
+            </not>
+        </preConditions>
+        <comment>Criando a tabela studio</comment>
+        <createTable tableName="studio">
+            <column name="id" autoIncrement="true" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_studio"/>
+            </column>
+            <column name="name" type="varchar(255)" />
+        </createTable>
+    </changeSet>
+
+    <changeSet id="3" author="claiton.nazaret">
+        <preConditions onFail="MARK_RAN" onFailMessage="Tabela movie já existe">
+            <not>
+                <tableExists tableName="movie"/>
+            </not>
+        </preConditions>
+        <comment>Criando a tabela movie</comment>
+        <createTable tableName="movie">
+            <column name="id" autoIncrement="true" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_movie"/>
+            </column>
+            <column name="year" type="date" />
+            <column name="title" type="varchar(255)" />
+            <column name="winner" type="boolean" defaultValueBoolean="false"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="4" author="claiton.nazaret">
+        <preConditions onFail="MARK_RAN" onFailMessage="Tabela movie_producers já existe">
+            <not>
+                <tableExists tableName="movie_producers"/>
+            </not>
+        </preConditions>
+        <comment>Criando a tabela movie_producers</comment>
+        <createTable tableName="movie_producers">
+            <column name="producers_id" type="bigint" >
+                <constraints foreignKeyName="fk_movie_producers_producers" referencedColumnNames="id"
+                             referencedTableName="producer"/>
+            </column>
+            <column name="movie_id" type="bigint" >
+                <constraints foreignKeyName="fk_movie_producers_movie" referencedColumnNames="id"
+                             referencedTableName="movie"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="5" author="claiton.nazaret">
+        <preConditions onFail="MARK_RAN" onFailMessage="Tabela movie_studios já existe">
+            <not>
+                <tableExists tableName="movie_studios"/>
+            </not>
+        </preConditions>
+        <comment>Criando a tabela movie_studios</comment>
+        <createTable tableName="movie_studios">
+            <column name="studios_id" type="bigint" >
+                <constraints foreignKeyName="fk_movie_studios_studios" referencedColumnNames="id"
+                             referencedTableName="studio"/>
+            </column>
+            <column name="movie_id" type="bigint" >
+                <constraints foreignKeyName="fk_movie_studios_movie" referencedColumnNames="id"
+                             referencedTableName="movie"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
